@@ -10,7 +10,7 @@ function logger(req, res, next) {
 
 async function validateProjectId(req, res, next) {
     try {
-        const project = await Project.getById(req.params.id)
+        const project = await Project.get(req.params.id)
         if(!project) {
             res.status(404).json({
                 message: "project not found",
@@ -26,8 +26,22 @@ async function validateProjectId(req, res, next) {
     }
 }
 
+function validateProject(req, res, next) {
+    const { name } = req.body
+    if(!name || !name.trim()){
+        res.status(400).json({
+            message: 'missing required name field', 
+        })
+    } else {
+        req.name = name.trim()
+        next();
+    }
+}
+
+
 
 module.exports = {
     logger,
     validateProjectId,
+    validateProject,
 }

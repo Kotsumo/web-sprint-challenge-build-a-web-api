@@ -4,7 +4,7 @@ const server = express();
 const { logger } = require('./middleware/middleware')
 const projectRouter = require('./projects/projects-router')
 
-
+server.use(express.json())
 server.use(logger)
 server.use('/api/projects', projectRouter);
 // Configure your server here
